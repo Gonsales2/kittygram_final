@@ -1,4 +1,4 @@
 repo_owner: Gonsales2
-kittygram_domain: http://localhost:9000
-taski_domain: http://127.0.0.1:8001
-dockerhub_username: DonsalesElis
+kittygram_domain: https://localhost:9000
+taski_domain: https://localhost:8001
+dockerhub_username: gonsaleselis

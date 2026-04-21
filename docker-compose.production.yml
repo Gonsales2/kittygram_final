@@ -1,0 +1,45 @@
+volumes:
+  pg_data:
+  static:
+  media:
+
+services:
+  db:
+    image: postgres:13
+    env_file: .env
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    restart: always
+
+  backend:
+    image: GonsalesElis/kittygram_backend:latest
+    env_file: .env
+    volumes:
+      - static:/backend_static
+      - media:/app/media
+    depends_on:
+      - db
+    restart: always
+
+  frontend:
+    image: GonsalesElis/kittygram_frontend:latest
+    env_file: .env
+    volumes:
+      - static:/frontend_static
+    command: sh -c "npm run build && cp -r /app/build/. /frontend_static/"
+    depends_on:
+      - backend
+    restart: always
+
+  gateway:
+    image: GonsalesElis/kittygram_gateway:latest
+    ports:
+      - 80:80
+    volumes:
+      - static:/static
+      - media:/media
+    depends_on:
+      - backend
+      - frontend
+    restart: always
+  
